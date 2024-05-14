@@ -1,0 +1,8 @@
+.env
+data/*
+
+poetry.lock
+*.pyc
+*.egg-info
+
+.venv/*

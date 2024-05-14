@@ -1,0 +1,93 @@
+version: "3.8"
+name: myapp
+
+networks:
+  net:
+    driver: bridge
+
+services:
+  postgres:
+    image: postgres:15.1-alpine
+    hostname: ${POSTGRES_HOST}
+    restart: always
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PWD}
+    healthcheck:
+      test: ["CMD", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 30s  # Check every 10 seconds
+      timeout: 5s  # Fail if check takes longer than 5 seconds
+      retries: 3     # Retry up to 5 times before considering unhealthy
+    ports:
+      - "${POSTGRES_PORT}:${POSTGRES_PORT}"
+    expose:
+      - ${POSTGRES_PORT}
+    networks:
+      - net
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  chromadb:
+    image: chromadb/chroma:0.5.0
+    hostname: ${VECTORDB_HOST}
+    restart: unless-stopped # possible values are: "no", always", "on-failure", "unless-stopped"
+    healthcheck:
+      # Adjust below to match your container port
+      test: [ "CMD", "curl", "-f", "http://localhost:8000/api/v1/heartbeat" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    ports:
+      - "${VECTORDB_PORT}:${VECTORDB_PORT}"
+    expose:
+      - "${VECTORDB_PORT}"
+    networks:
+      - net
+    volumes:
+      - chroma-data:/chroma/chroma
+
+  selenium:
+    image: seleniarm/standalone-firefox:125.0-geckodriver-0.34-20240427
+    hostname: ${WEBDRIVER_HOST}
+    shm_size: '2gb'
+    ports:
+      - ${WEBDRIVER_PORT}:${WEBDRIVER_PORT}
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "http://localhost:4444/status"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - net
+
+  app:
+    image: image-search
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      args:
+        UID: ${APP_HOST_UID}
+        GID: ${APP_HOST_GID}
+    ports:
+      - "${APP_PORT}:${APP_PORT}"  # Adjust port mapping if needed
+    healthcheck:
+      # Adjust below to match your container port
+      test: [ "CMD", "curl", "-f", "http://localhost:5001/healthcheck" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    volumes:
+      - "./data/images:/app/data/images"
+    networks:
+      - net
+    depends_on:
+      - postgres
+      - chromadb
+      - selenium
+
+volumes:
+  postgres_data:
+    driver: local
+  chroma-data:
+    driver: local

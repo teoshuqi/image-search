@@ -1,0 +1,67 @@
+{
+    "twl": {
+        "base_url": "https://www.thewillowlabel.com",
+        "url_product_prefix": "/products",
+        "product_tag": "div",
+        "product_tag_attribute": {
+            "class": "productrow"
+        },
+        "next_page_xpath": "//div[@class='listing-pager listing-pagerbottom'] //div[@class='item-list']//ul[@class='pager']//li[@class='li-item pager-next']//a[@class='active']",
+        "next_page_script": "arguments[0].click();",
+        "button_xpath": "",
+        "button_script": "",
+        "product_class": "TWLProduct"
+    },
+    "ssd": {
+        "base_url": "https://www.shopsassydream.com",
+        "url_product_prefix": "/products",
+        "product_tag": "div",
+        "product_tag_attribute": {
+            "class": "productrow"
+        },
+        "next_page_xpath": "//div[@class='custom-pagination-wrap']//ul[@class='pagination']//li[@class='next']//a[@class='active']",
+        "next_page_script": "arguments[0].click();",
+        "button_xpath": "",
+        "button_script": "",
+        "product_class": "SSDProduct"
+    },
+    "lb": {
+        "base_url": "https://www.lovebonito.com",
+        "url_product_prefix": "/sg/shop",
+        "product_tag": "div",
+        "product_tag_attribute": {
+            "class": "sf-product-card products__product-card"
+        },
+        "next_page_xpath": "//*[@id=\"category\"]/div[4]/div/div[2]/nav/div[@class=\"right_arrows\"]/div[1]/button",
+        "next_page_script": "arguments[0].click();",
+        "button_xpath": "//*[@id=\"category\"]/div[3]/div[2]/div[1]/div/button",
+        "button_script": "arguments[0].click();",
+        "product_class": "LBProduct"
+    },
+    "acw": {
+        "base_url": "https://anticlockwise.sg",
+        "url_product_prefix": "/category/apparels",
+        "product_tag": "div",
+        "product_tag_attribute": {
+            "class": "productrow"
+        },
+        "next_page_xpath": "",
+        "next_page_script": "",
+        "button_xpath": "",
+        "button_script": "",
+        "product_class": "ACWProduct"
+    },
+    "ttr": {
+        "base_url": "https://www.thetinselrack.com",
+        "url_product_prefix": "/products",
+        "product_tag": "div",
+        "product_tag_attribute": {
+            "class": "productrow"
+        },
+        "next_page_xpath": "//*[@id=\"products-the-tinsel-rack\"]/div[1]/main/div/ul/li[@class=\"next\"]/a",
+        "next_page_script": "arguments[0].click();",
+        "button_xpath": "",
+        "button_script": "",
+        "product_class": "TTRProduct"
+    }
+}
