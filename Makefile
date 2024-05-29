@@ -13,12 +13,12 @@ test:
 	pytest --cov-report term-missing --cov=src tests/
 
 coverage:
-	echo "to add coverage code"	
+	echo "to add coverage code"
 
 up:
 	docker compose up
 
-down: 
+down:
 	docker compose down
 
 prune:
