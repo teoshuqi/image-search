@@ -16,18 +16,30 @@ jobs:
       uses: actions/setup-python@v3
       with:
         python-version: 3.10
-
+      
     - name: Install Poetry
       uses: snok/install-poetry@v1  # Install Poetry
 
     - name: Install dependencies
       run: |
         poetry install --no-dev  # Install dependencies without dev ones
+  
+  lint:
+    runs-on: ubuntu-latest
+    needs: [build]
+    steps:
+    - uses: actions/checkout@v3
 
     - name: Run pre-commit hooks
       uses: pre-commit/action@v3  # Use the pre-commit action
       with:
         fail_fast: true           # Continue even if some hooks fail
+  
+  tests:
+    runs-on: ubuntu-latest
+    needs: [build, lint]
+    steps:
+    - uses: actions/checkout@v3
 
     - name: Run integration tests (pull request only)
       if: ${{ github.event.type == 'pull_request' }}
@@ -35,21 +47,6 @@ jobs:
         poetry install --with dev  # Install dev dependencies
         docker-compose up -d  # Start services in detached mode
         poetry run pytest --cov-report term-missing --cov=src tests/  # Run integration tests
-      
-    - name: Upload coverage report (pull request only)
-      if: ${{ github.event.type == 'pull_request' }}
-      uses: actions/upload-artifact@v3
-      with:
-        name: coverage-report
-        path: .coverage  # Adjust path if needed
-
-    - name: Calculate and publish test coverage badge (pull request only)
-      if: ${{ github.event.type == 'pull_request' }}
-      uses: [uses: coverallsapp/github-action@v1](https://github.com/coverallsapp/github-action),  # You can use a different coverage reporting tool
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        fail_unverified: true  # Optional: Fail if coverage is not uploaded
-        path-to-coverage: '.coverage'  # Adjust path if needed
 
 
 
