@@ -24,7 +24,7 @@ jobs:
 
     - name: Install dependencies
       run: |
-        poetry install --no-dev  # Install dependencies without dev ones
+        make requirements  # Install dependencies without dev ones
 
   lint:
     runs-on: ubuntu-latest
@@ -47,9 +47,9 @@ jobs:
     - name: Run integration tests (pull request only)
       if: ${{ github.event.type == 'pull_request' }}
       run: |
-        poetry install --with dev  # Install dev dependencies
-        docker-compose up -d  # Start services in detached mode
-        poetry run pytest --cov-report term-missing --cov=src tests/  # Run integration tests
+        make dev_requirements
+        make up
+        make test
 
 
 
