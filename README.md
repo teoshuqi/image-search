@@ -21,20 +21,23 @@ poetry install --with dev
 pre-commit install
 ```
 
-### Linting and Tests
+### Linting and tests
 ```bash
-pytest --cov-report term-missing --cov=src tests/
-pre-commit run --all-files
+make precommit
+make lint
+make up
+make test
 ```
 
 ### Run app
 ```bash
-docker compose up
+make up
 ```
+
+### Test
 
 ### API methods ###
 * GET /healthcheck
 * POST /update/{pages: int}
 * POST /search
     * {text:"", type:"text"}
-

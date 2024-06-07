@@ -12,6 +12,9 @@ lint:
 	echo "Running code style checks..."
 	black src/ tests/ --check; isort src/ tests/ --check --diff; flake8 src/ tests/; bandit -c pyproject.toml -r src/ tests/
 
+precommit:
+	pre-commit run --all-files
+
 test:
 	poetry run pytest --cov-report term-missing --cov=src tests/  # Run integration tests
 

@@ -4,6 +4,8 @@ import traceback
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import JSONResponse
 
+from src.config import IMAGE_DIR
+
 from .models import Query
 from .utils import (
     initialise_database,
@@ -58,8 +60,12 @@ def search_data(query: Query, databases: tuple = Depends(initialise_database)):
     if query.type == "text":
         result_df = search_images_by_text(*databases, query.text, n=10)
     elif query.type == "image":
-        if os.path.isfile(query.text):  # Check for image path safety
-            result_df = search_images_by_imgpath(*databases, query.text, n=10)  # Use unpacking
+        base_path = IMAGE_DIR
+        fullpath = os.path.normpath(os.path.join(base_path, query.text))
+        if not fullpath.startswith(base_path):
+            return JSONResponse(content={"error": "Image path invalid"}, status_code=400)
+        if os.path.isfile(fullpath):  # Check for image path safety
+            result_df = search_images_by_imgpath(*databases, fullpath, n=10)  # Use unpacking
         else:
             return JSONResponse(content={"error": "Image path invalid"}, status_code=400)
     else:

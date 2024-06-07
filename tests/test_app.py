@@ -24,14 +24,14 @@ def test_search_data_text_success():
 
 
 def test_search_data_image_success():
-    body = {"text": "data/images/(BACKORDER)_ATHENA_EYELET_FLUTTER_SLEEVE_DRESS_NAVY_.jpg", "type": "image"}
+    body = {"text": "./data/images/(BACKORDER)_ATHENA_EYELET_FLUTTER_SLEEVE_DRESS_NAVY_.jpg", "type": "image"}
     response = client.post("/search", json=body)
     assert response.status_code == 200
     assert len(response.json()) == 10
 
 
 def test_search_data_image_fail():
-    body = {"text": "test/(BACKORDER)_ATHENA_EYELET_FLUTTER_SLEEVE_DRESS_NAVY_.jpg", "type": "image"}
+    body = {"text": "./test/(BACKORDER)_ATHENA_EYELET_FLUTTER_SLEEVE_DRESS_NAVY_.jpg", "type": "image"}
     response = client.post("/search", json=body)
     assert response.status_code == 400
     assert response.json() == {"error": "Image path invalid"}
