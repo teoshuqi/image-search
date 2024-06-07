@@ -42,9 +42,3 @@ repos:
     - id: bandit
       args: ["-c", "pyproject.toml"]
       additional_dependencies: ["bandit[toml]"]
-  # - repo: https://github.com/econchick/interrogate
-  #   rev: 1.7.0
-  #   hooks:
-  #     - id: interrogate
-  #       args: [--quiet, --fail-under=95]
-  #       pass_filenames: false  # needed if excluding files with pyproject.toml or setup.cfg

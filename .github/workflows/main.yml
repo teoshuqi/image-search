@@ -32,7 +32,7 @@ jobs:
     steps:
       - name: set PY
         run: echo "PY=$(python -VV | sha256sum | cut -d' ' -f1)" >> $GITHUB_ENV
-      
+
       - uses: actions/cache@v3
         with:
           path: ~/.cache/pre-commit
@@ -50,6 +50,3 @@ jobs:
         make dev_requirements
         make up
         make test
-
-
-
