@@ -87,9 +87,9 @@ services:
       - selenium
 
 volumes:
-  postgres_data:
+  postgres:
     driver: local
-  chroma-data:
+  chroma:
     driver: local
-  iamges:
+  images:
     driver: local
