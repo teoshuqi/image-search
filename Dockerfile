@@ -61,8 +61,11 @@ RUN poetry install --with dev
 ###############################################
 FROM python-base as production
 
-RUN mkdir -p $PYSETUP_PATH/data/images
+RUN mkdir -p $PYSETUP_PATH/data
 RUN chown -R nonroot:nonroot $PYSETUP_PATH/data
+
+RUN mkdir -p $PYSETUP_PATH/data/images
+RUN chown -R nonroot:nonroot $PYSETUP_PATH/data/images
 
 USER nonroot
 
