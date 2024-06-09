@@ -26,7 +26,7 @@ services:
     networks:
       - net
     volumes:
-      - ./postgres:/var/lib/postgresql/data
+      - postgres:/var/lib/postgresql/data
 
   chromadb:
     image: chromadb/chroma:0.5.0
@@ -45,7 +45,7 @@ services:
     networks:
       - net
     volumes:
-      - ./chroma:/chroma/chroma
+      - chroma:/chroma/chroma
 
   selenium:
     image: seleniarm/standalone-firefox:125.0-geckodriver-0.34-20240427
@@ -78,7 +78,7 @@ services:
       timeout: 10s
       retries: 3
     volumes:
-      - "./data/images:/app/data/images"
+      - images:/app/data/images
     networks:
       - net
     depends_on:
@@ -90,4 +90,6 @@ volumes:
   postgres_data:
     driver: local
   chroma-data:
+    driver: local
+  iamges:
     driver: local
