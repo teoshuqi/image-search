@@ -26,7 +26,7 @@ services:
     networks:
       - net
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - ./postgres:/var/lib/postgresql/data
 
   chromadb:
     image: chromadb/chroma:0.5.0
@@ -45,7 +45,7 @@ services:
     networks:
       - net
     volumes:
-      - chroma-data:/chroma/chroma
+      - ./chroma:/chroma/chroma
 
   selenium:
     image: seleniarm/standalone-firefox:125.0-geckodriver-0.34-20240427
